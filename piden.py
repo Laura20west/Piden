@@ -241,17 +241,20 @@ def save_to_memory(direction, src_text, tgt_text):
         st.error(f"Error saving to memory: {str(e)}")
 
 # Load models with caching
+# Replace your pipeline initialization with:
 @st.cache_resource(show_spinner=False)
 def load_models():
     """Load translation models with caching"""
     with st.spinner("Loading translation models... This may take a minute"):
         pidgin_to_english = pipeline(
-            "translation",
-            model="Xara2west/pidgin-to-english-translator-final09"
+            "translation_en_to_fr",  # Changed task type
+            model="Xara2west/pidgin-to-english-translator-final09",
+            device=0 if torch.cuda.is_available() else -1
         )
         english_to_pidgin = pipeline(
-            "translation",
-            model="Xara2west/pidgin-translator-final06"
+            "translation_en_to_fr",  # Changed task type
+            model="Xara2west/pidgin-translator-final06",
+            device=0 if torch.cuda.is_available() else -1
         )
     return pidgin_to_english, english_to_pidgin
 
